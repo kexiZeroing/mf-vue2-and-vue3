@@ -1,0 +1,14 @@
+{
+  "name": "mf-vue2-and-vue3",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:host\" \"npm run dev:remote\"",
+    "dev2": "concurrently \"npm run dev:host2\" \"npm run dev:remote\"",
+    "dev:host": "cd vue3 && npm run start",
+    "dev:host2": "cd vue2-2 && npm run start",
+    "dev:remote": "cd vue2 && npm run start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
