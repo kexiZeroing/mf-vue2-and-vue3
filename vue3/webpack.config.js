@@ -8,7 +8,9 @@ module.exports = () => ({
   mode: 'development',
   entry: path.resolve(__dirname, './src/main.js'),
   output: {
-    publicPath: 'auto',
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].js',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.vue', '.jsx', '.js', '.json'],

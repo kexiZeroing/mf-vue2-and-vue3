@@ -47,10 +47,7 @@ module.exports = {
       name: 'vue2-2',
       filename: 'remoteEntry.js',
       remotes: {
-        vue2App: {
-          external: 'vue2App@http://localhost:3001/remoteEntry.js',
-          from: 'webpack'
-        }
+        vue2App: 'vue2App@http://localhost:3001/remoteEntry.js',
       },
       shared: {
         vue: {

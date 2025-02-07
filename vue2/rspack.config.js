@@ -1,14 +1,15 @@
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
-const { ModuleFederationPlugin } = require('webpack').container;
+const { rspack } = require('@rspack/core');
+const { ModuleFederationPlugin } = require('@module-federation/enhanced/rspack');
 
-module.exports = () => ({
+module.exports = {
   mode: 'development',
   entry: path.resolve(__dirname, './src/main.js'),
   output: {
-    publicPath: 'auto',
+    // Automatically determine the URL from which the main JavaScript file is loaded.
+    // It allows federated modules to load correctly based on where the app is hosted.
+    publicPath: 'auto'
   },
   resolve: {
     extensions: ['.vue', '.jsx', '.js', '.json'],
@@ -23,20 +24,23 @@ module.exports = () => ({
         use: 'vue-loader',
       },
       {
+        test: /\.js$/,
+        loader: 'builtin:swc-loader',
+        type: 'javascript/auto',
+      },
+      {
         test: /\.css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {},
-          },
+          rspack.CssExtractRspackPlugin.loader,
           'css-loader',
         ],
+        type: 'javascript/auto'
       },
     ],
   },
   plugins: [
     new VueLoaderPlugin(),
-    new MiniCssExtractPlugin({
+    new rspack.CssExtractRspackPlugin({
       filename: '[name].css',
     }),
     // https://juejin.cn/post/7146855277063569438
@@ -56,11 +60,11 @@ module.exports = () => ({
         }
       },
     }),
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, './index.html'),
-    }),
+    new rspack.HtmlRspackPlugin({
+      template: path.resolve(__dirname, './index.html')
+    })
   ],
   devServer: {
     port: 3001,
   },
-});
+};
