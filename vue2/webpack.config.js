@@ -51,7 +51,8 @@ module.exports = () => ({
       shared: {
         vue: {
           singleton: true,
-          requiredVersion: '^2.7.0'
+          requiredVersion: '^2.7.0',
+          eager: true,  // Bundles vue inside the remote, so it doesn’t depend on a host.
         }
       },
     }),
